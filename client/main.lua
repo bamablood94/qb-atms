@@ -75,12 +75,14 @@ RegisterNetEvent('qb-atms:client:loadATM', function(cards)
                         cards = cards,
                     })
                 end, function()
-                    QBCore.Functions.Notify("Failed!", "error")
+                    --QBCore.Functions.Notify("Failed!", "error")
+                    exports['okokNotify']:Alert('Failed!', 'Could not Load ATM', 3000, 'error')
                 end)
             end
         end
     else
-        QBCore.Functions.Notify("Please visit a branch to order a card", "error")
+        --QBCore.Functions.Notify("Please visit a branch to order a card", "error")
+        exports['okokNotify']:Alert('Need a card', "Please visit a branch to order a card", 5000, 'warning')
     end
 end)
 
@@ -132,9 +134,11 @@ RegisterNUICallback("removeCard", function(data)
             SendNUIMessage({
                 status = "closeATM"
             })
-            QBCore.Functions.Notify('Card has been deleted.', 'success')
+            --QBCore.Functions.Notify('Card has been deleted.', 'success')
+            exports['okokNotify']:Alert('Removing Card', 'Card has been deleted', 3000, 'info')
         else
-            QBCore.Functions.Notify('Failed to delete card.', 'error')
+            --QBCore.Functions.Notify('Failed to delete card.', 'error')
+            exports['okokNotify']:Alert('Failed', 'Failed to delete card', 3000, 'error')
         end
     end, data)
 end)

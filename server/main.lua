@@ -7,7 +7,8 @@ CreateThread(function()
     while true do
         Wait(3600000)
         dailyWithdraws = {}
-        TriggerClientEvent('QBCore:Notify', -1, "Daily Withdraw Limit Reset", "success")
+        --TriggerClientEvent('QBCore:Notify', -1, "Daily Withdraw Limit Reset", "success"),
+        TriggerClientEvent('okokNotify:Alert', -1, 'Limit Reset', 'Daily Withdraw Limit Reset', 3000, 'success')
     end
 end)
 
@@ -133,9 +134,11 @@ RegisterNetEvent('qb-atms:server:doAccountWithdraw', function(data)
                     xCH.Functions.RemoveMoney('bank', tonumber(data.amount))
                     xPlayer.Functions.AddMoney('cash', tonumber(data.amount))
                     dailyWithdraws[cardHolder] = dailyWithdraws[cardHolder] + tonumber(data.amount)
-                    TriggerClientEvent('QBCore:Notify', src, "Withdraw $" .. data.amount .. ' from credit card. Daily Withdraws: ' .. dailyWithdraws[cardHolder], "success")
+                    --TriggerClientEvent('QBCore:Notify', src, "Withdraw $" .. data.amount .. ' from credit card. Daily Withdraws: ' .. dailyWithdraws[cardHolder], "success")
+                    TriggerClientEvent('okokNotify:Alert', src, 'Withdrew', "Withdraw $" .. data.amount .. ' from credit card. Daily Withdraws: ' .. dailyWithdraws[cardHolder], 3000, 'success')
                 else
-                    TriggerClientEvent('QBCore:Notify', src, "Not Enough Money", "error")
+                    --TriggerClientEvent('QBCore:Notify', src, "Not Enough Money", "error")
+                    TriggerClientEvent('okokNotify:Alert', src, 'Not Enough Money', 'You don\'t have enough money', 3000, 'warning')
                 end
 
                 banking['online'] = true
@@ -152,7 +155,8 @@ RegisterNetEvent('qb-atms:server:doAccountWithdraw', function(data)
                     xCH.money.bank = bankCount
                     MySQL.Async.execute('UPDATE players SET money = ? WHERE citizenid = ?', { xCH.money, cardHolder })
                     dailyWithdraws[cardHolder] = dailyWithdraws[cardHolder] + tonumber(data.amount)
-                    TriggerClientEvent('QBCore:Notify', src, "Withdraw $" .. data.amount .. ' from credit card. Daily Withdraws: ' .. dailyWithdraws[cardHolder], "success")
+                    --TriggerClientEvent('QBCore:Notify', src, "Withdraw $" .. data.amount .. ' from credit card. Daily Withdraws: ' .. dailyWithdraws[cardHolder], "success")
+                    TriggerClientEvent('okokNotify:Alert', src, 'Withdrew', "Withdraw $" .. data.amount .. ' from credit card. Daily Withdraws: ' .. dailyWithdraws[cardHolder], 3000, 'success')
                 else
                     TriggerClientEvent('QBCore:Notify', src, "Not Enough Money", "error")
                 end
@@ -165,7 +169,8 @@ RegisterNetEvent('qb-atms:server:doAccountWithdraw', function(data)
             end
             TriggerClientEvent('qb-atms:client:updateBankInformation', src, banking)
         else
-            TriggerClientEvent('QBCore:Notify', src, "You have reached the daily limit", "error")
+            --TriggerClientEvent('QBCore:Notify', src, "You have reached the daily limit", "error")
+            TriggerClientEvent('okokNotify:Alert', src, 'Not Enough Money', 'You don\'t have enough money', 3000, 'warning')
         end
     end
 end)
